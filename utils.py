@@ -16,17 +16,17 @@ def format_bytes(size):
 def get_file_info(path):
     """Returns basic file info for UI feedback."""
     if not path or not isinstance(path, str) or not os.path.exists(path):
-        return "File not found"
+        return {"size_str": "0 B", "ext": "N/A", "modified": 0}
     
     try:
         size = os.path.getsize(path)
         return {
-            "size": format_bytes(size),
-            "extension": os.path.splitext(path)[1].lower(),
+            "size_str": format_bytes(size),
+            "ext": os.path.splitext(path)[1].lower().replace('.', ''),
             "modified": os.path.getmtime(path)
         }
     except Exception:
-        return "Error reading file"
+        return {"size_str": "Error", "ext": "ERR", "modified": 0}
 
 def validate_path(path):
     """Ensures the directory for the path exists."""
